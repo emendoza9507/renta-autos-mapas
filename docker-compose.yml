@@ -1,0 +1,48 @@
+services:
+  app:
+    build:
+      args:
+        user: laravel
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: renta-autos-app
+    container_name: renta-autos-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - renta-autos
+
+  db:
+    image: mysql:8.0
+    container_name: renta-autos-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: rentaautos
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: rentaautos
+      MYSQL_USER: renta
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    networks:
+      - renta-autos
+
+  nginx:
+    image: nginx:alpine
+    container_name: renta-autos-nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+    networks:
+      - renta-autos
+
+networks:
+  renta-autos:
+    driver: bridge

@@ -1,0 +1,2 @@
+<!-- Para corres docker maps -->
+docker run --hostname=454cbf271a90 --mac-address=4e:41:0d:a1:8f:8f --env=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin --env=NODE_VERSION=6.15.1 --env=YARN_VERSION=1.12.3 --env=NODE_ENV=production --volume=C:\xampp\htdocs\renta-autos-mapas\tiles:/data --volume=/data --network=bridge --workdir=/data -p 8080:80 --restart=no --runtime=runc -t -d klokantech/tileserver-gl
